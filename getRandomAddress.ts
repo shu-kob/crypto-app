@@ -13,8 +13,5 @@ const testnetKeyPair = bitcoin.ECPair.makeRandom({ network: TESTNET });
 
 console.log("testnet private key WIF:\n" + testnetKeyPair.toWIF());
 
-const testnetAddress = bitcoin.payments.p2pkh({
-      pubkey: testnetKeyPair.publicKey,
-      network: TESTNET,
-    });
+const testnetAddress = bitcoin.payments.p2pkh({ pubkey: testnetKeyPair.publicKey, network: TESTNET, });
 console.log("testnet random address:\n" + testnetAddress.address);
