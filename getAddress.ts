@@ -54,13 +54,31 @@ function mnemonicToXpub() {
     console.log("xpriv: " + xpriv);
     const xpub = node.neutered().toBase58();
     console.log("xpub: " + xpub);
-    return xpub;
+    return node;
 }
 
+function xpubtoPub() {
+    const node = mnemonicToXpub();
+    const privKey = node.derivePath("m/44'/0'/0'").toBase58();
+    console.log(privKey);
+    const pubKey = node.derivePath("m/44'/0'/0'").neutered().toBase58();
+    console.log(pubKey);
+}
+
+console.log(xpubtoPub());
+
+const node = mnemonicToXpub();
+
+const getAddress = (node) => {
+    return bitcoin.payments.p2pkh({ pubkey: node.publicKey }).address
+}
+
+const address = getAddress(node.derivePath("m/44'/0'/0'/0/0"));
+
+console.log("address: " + address);
+
 const p2phAddress = getP2shAddress();
-console.log(p2phAddress);
+console.log("p2phAddress: " + p2phAddress);
 
 const p2phTestnetAddress = getP2shTestnetAddress();
-console.log(p2phTestnetAddress);
-
-console.log(mnemonicToXpub());
+console.log("p2phTestnetAddress: " + p2phTestnetAddress);
