@@ -1,21 +1,23 @@
-let bitcoin = require('bitcoinjs-lib');
+const bitcoin = require('bitcoinjs-lib');
+const bip32 = require('bip32');
+const bip39 = require('bip39');
 const TESTNET = bitcoin.networks.testnet;
 
 function getRandomPrivKey(){
     const keyPair = bitcoin.ECPair.makeRandom();
     const privKey = keyPair.toWIF()
-    console.log("private key WIF:\n" + privKey);
+    console.log("private key WIF: " + privKey);
     const address = bitcoin.payments.p2pkh({ pubkey: keyPair.publicKey });
-    console.log("random address:\n" + address.address);
+    console.log("random address: " + address.address);
     return privKey;
 }
 
 function getTestnetRandomPrivKey(){
     const testnetKeyPair = bitcoin.ECPair.makeRandom({ network: TESTNET });
     const testnetPrivKey = testnetKeyPair.toWIF();
-    console.log("testnet private key WIF:\n" + testnetPrivKey);
+    console.log("testnet private key WIF: " + testnetPrivKey);
     const testnetAddress = bitcoin.payments.p2pkh({ pubkey: testnetKeyPair.publicKey, network: TESTNET, });
-    console.log("testnet random address:\n" + testnetAddress.address);
+    console.log("testnet random address: " + testnetAddress.address);
     return testnetPrivKey;
 }
 
@@ -43,8 +45,22 @@ function getP2shTestnetAddress(){
     return address;
 }
 
+function mnemonicToXpub() {
+    const mnemonic = bip39.entropyToMnemonic('00000000000000000000000000000000');
+    console.log("mnemonic: " + mnemonic)
+    const seed = bip39.mnemonicToSeedSync(mnemonic);
+    const node = bip32.fromSeed(seed);
+    const xpriv = node.toBase58();
+    console.log("xpriv: " + xpriv);
+    const xpub = node.neutered().toBase58();
+    console.log("xpub: " + xpub);
+    return xpub;
+}
+
 const p2phAddress = getP2shAddress();
 console.log(p2phAddress);
 
 const p2phTestnetAddress = getP2shTestnetAddress();
 console.log(p2phTestnetAddress);
+
+console.log(mnemonicToXpub());
