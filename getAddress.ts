@@ -46,7 +46,7 @@ function getP2shTestnetAddress(){
 }
 
 function mnemonicToXpub() {
-    const mnemonic = bip39.entropyToMnemonic('00000000000000000000000000000000');
+    const mnemonic = bip39.generateMnemonic();
     console.log("mnemonic: " + mnemonic)
     const seed = bip39.mnemonicToSeedSync(mnemonic);
     const node = bip32.fromSeed(seed);
