@@ -58,7 +58,7 @@ function xpubtoPub() {
     const node = mnemonicToNode();
     const xpriv = node.derivePath("m/44'/0'/0'").toBase58();
     console.log("xpriv: " + xpriv);
-    const xpub = node.derivePath("m/44'/0'/0'/0/0").neutered().toBase58();
+    const xpub = node.derivePath("m/44'/0'/0'").neutered().toBase58();
     console.log("xpub: " + xpub);
     return xpub;
 }
