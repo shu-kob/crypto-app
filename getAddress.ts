@@ -1,6 +1,6 @@
-const bitcoin = require('bitcoinjs-lib');
-const bip32 = require('bip32');
-const bip39 = require('bip39');
+import * as bitcoin from 'bitcoinjs-lib';
+import * as bip32 from 'bip32';
+import * as bip39 from 'bip39';
 const TESTNET = bitcoin.networks.testnet;
 
 function getRandomPrivKey(){
@@ -69,7 +69,7 @@ console.log(xpubtoPub());
 
 const node = mnemonicToXpub();
 
-const getAddress = (node) => {
+const getAddress = (node :any) => {
     return bitcoin.payments.p2pkh({ pubkey: node.publicKey }).address
 }
 
