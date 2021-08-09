@@ -1,5 +1,6 @@
 import * as bitcoin from 'bitcoinjs-lib';
 import * as bip32 from 'bip32';
+import { BIP32Interface } from 'bip32';
 import * as bip39 from 'bip39';
 const TESTNET = bitcoin.networks.testnet;
 
@@ -45,35 +46,36 @@ function getP2shTestnetAddress(){
     return address;
 }
 
-function mnemonicToXpub() {
+function mnemonicToNode() {
     const mnemonic = bip39.generateMnemonic(256);
     console.log("mnemonic: " + mnemonic)
     const seed = bip39.mnemonicToSeedSync(mnemonic);
     const node = bip32.fromSeed(seed);
-    const xpriv = node.toBase58();
-    console.log("xpriv: " + xpriv);
-    const xpub = node.neutered().toBase58();
-    console.log("xpub: " + xpub);
     return node;
 }
 
 function xpubtoPub() {
-    const node = mnemonicToXpub();
-    const privKey = node.derivePath("m/44'/0'/0'").toBase58();
-    console.log(privKey);
-    const pubKey = node.derivePath("m/44'/0'/0'").neutered().toBase58();
-    console.log(pubKey);
+    const node = mnemonicToNode();
+    const xpriv = node.derivePath("m/44'/0'/0'").toBase58();
+    console.log("xpriv: " + xpriv);
+    const xpub = node.derivePath("m/44'/0'/0'/0/0").neutered().toBase58();
+    console.log("xpub: " + xpub);
+    return xpub;
 }
 
-console.log(xpubtoPub());
+const xpub = xpubtoPub();
 
-const node = mnemonicToXpub();
+console.log("xpubtoPub(): " + xpubtoPub());
 
-const getAddress = (node :any) => {
-    return bitcoin.payments.p2pkh({ pubkey: node.publicKey }).address
+const getAddress = (publicKey: any) => {
+    return bitcoin.payments.p2pkh({ pubkey: publicKey }).address
 }
 
-const address = getAddress(node.derivePath("m/44'/0'/0'/0/0"));
+console.debug("bip32.fromBase58(xpubtoPub()): " + JSON.stringify(bip32.fromBase58(xpub)));
+let node: BIP32Interface = bip32.fromBase58(xpub);
+console.log("node: " + JSON.stringify(node));
+console.log("node.publicKey: " + node.publicKey);
+const address = getAddress(node.publicKey);
 
 console.log("address: " + address);
 
