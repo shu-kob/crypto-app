@@ -58,8 +58,12 @@ function xpubtoPub() {
     const node = mnemonicToNode();
     const xpriv = node.derivePath("m/44'/0'/0'").toBase58();
     console.log("xpriv: " + xpriv);
-    const xpub = node.derivePath("m/44'/0'/0'").neutered().toBase58();
+    const xpub = node.derivePath("m/44'/0'/0'/0/0").neutered().toBase58();
     console.log("xpub: " + xpub);
+    const privKey = node.derivePath("m/44'/0'/0'/0/0").toWIF();
+    console.log("privKey: " + privKey);
+    let bip32Interface: BIP32Interface = bip32.fromBase58(xpub);
+    console.log("bip32Interface: " + JSON.stringify(bip32Interface));
     return xpub;
 }
 
