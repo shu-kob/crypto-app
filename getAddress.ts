@@ -75,8 +75,6 @@ const getAddress = (publicKey: any) => {
     return bitcoin.payments.p2pkh({ pubkey: publicKey }).address
 }
 
-// console.debug("bip32.fromBase58(xpubtoPub()): " + JSON.stringify(bip32.fromBase58(xpub)));
-// let node: BIP32Interface = bip32.fromBase58(xpub);
 console.log("bip32Interface: " + JSON.stringify(xpubtoPub()));
 let addressIndex = 0;
 const pubKey = xpub.derive(addressIndex).publicKey;
