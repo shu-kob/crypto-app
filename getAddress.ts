@@ -56,15 +56,15 @@ function mnemonicToNode() {
 
 function xpubtoPub() {
     const node = mnemonicToNode();
-    const xpriv = node.derivePath("m/44'/0'/0'").toBase58();
+    const xpriv = node.toBase58();
     console.log("xpriv: " + xpriv);
-    const xpub = node.derivePath("m/44'/0'/0'/0/0").neutered().toBase58();
+    const xpub = node.neutered().toBase58();
     console.log("xpub: " + xpub);
-    const privKey = node.derivePath("m/44'/0'/0'/0/0").toWIF();
+    const privKey = node.derivePath("m/44'/0/0/0/0").toWIF();
     console.log("privKey: " + privKey);
     let bip32Interface: BIP32Interface = bip32.fromBase58(xpub);
     console.log("bip32Interface: " + JSON.stringify(bip32Interface));
-    return xpub;
+    return bip32Interface;
 }
 
 const xpub = xpubtoPub();
@@ -75,11 +75,13 @@ const getAddress = (publicKey: any) => {
     return bitcoin.payments.p2pkh({ pubkey: publicKey }).address
 }
 
-console.debug("bip32.fromBase58(xpubtoPub()): " + JSON.stringify(bip32.fromBase58(xpub)));
-let node: BIP32Interface = bip32.fromBase58(xpub);
-console.log("node: " + JSON.stringify(node));
-console.log("node.publicKey: " + node.publicKey);
-const address = getAddress(node.publicKey);
+// console.debug("bip32.fromBase58(xpubtoPub()): " + JSON.stringify(bip32.fromBase58(xpub)));
+// let node: BIP32Interface = bip32.fromBase58(xpub);
+console.log("bip32Interface: " + JSON.stringify(xpubtoPub()));
+let addressIndex = 0;
+const pubKey = xpub.derive(addressIndex).publicKey;
+console.log("publicKey: " + pubKey);
+const address = getAddress(pubKey);
 
 console.log("address: " + address);
 
