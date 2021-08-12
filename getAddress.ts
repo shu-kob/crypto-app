@@ -8,6 +8,7 @@ function getRandomPrivKey(){
     const keyPair = bitcoin.ECPair.makeRandom();
     const privKey = keyPair.toWIF()
     console.log("private key WIF: " + privKey);
+    console.log(keyPair.publicKey);
     const address = bitcoin.payments.p2pkh({ pubkey: keyPair.publicKey });
     console.log("random address: " + address.address);
     return privKey;
