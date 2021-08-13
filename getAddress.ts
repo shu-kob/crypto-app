@@ -25,9 +25,9 @@ function getTestnetRandomPrivKey(){
 
 function getP2shAddress(){
     const pubkeys = [
-        pubKey,
-        pubKey,
-        pubKey,
+        makePubKey(2),
+        makePubKey(2),
+        makePubKey(2),
     ].map(Buffer => Buffer);
     const { address } = bitcoin.payments.p2sh({
         redeem: bitcoin.payments.p2ms({ m: 2, pubkeys }),
@@ -37,9 +37,9 @@ function getP2shAddress(){
 
 function getP2shTestnetAddress(){
     const pubkeys = [
-        pubKey,
-        pubKey,
-        pubKey,
+        makePubKey(1),
+        makePubKey(1),
+        makePubKey(1),
     ].map(Buffer => Buffer);
     const { address } = bitcoin.payments.p2sh({
         redeem: bitcoin.payments.p2ms({ m: 2, pubkeys, network: TESTNET, }),
@@ -82,6 +82,11 @@ let addressIndex = 0;
 
 const pubKey = bip32Interface.derive(addressIndex).publicKey;
 console.log(pubKey);
+
+function makePubKey(addressIndex: number){
+    return bip32Interface.derive(addressIndex).publicKey
+}
+
 const address = getAddress(pubKey);
 
 console.log(address);
