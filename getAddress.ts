@@ -25,10 +25,10 @@ function getTestnetRandomPrivKey(){
 
 function getP2shAddress(){
     const pubkeys = [
-        '026477115981fe981a6918a6297d9803c4dc04f328f22041bedff886bbc2962e01',
-        '02c96db2302d19b43d4c69368babace7854cc84eb9e061cde51cfa77ca4a22b8b9',
-        '03c6103b3b83e4a24a0e33a4df246ef11772f9992663db0c35759a5e2ebf68d8e9',
-    ].map(hex => Buffer.from(hex, 'hex'));
+        makePubKey(2),
+        makePubKey(2),
+        makePubKey(2),
+    ].map(Buffer => Buffer);
     const { address } = bitcoin.payments.p2sh({
         redeem: bitcoin.payments.p2ms({ m: 2, pubkeys }),
     });
@@ -37,10 +37,10 @@ function getP2shAddress(){
 
 function getP2shTestnetAddress(){
     const pubkeys = [
-        '026477115981fe981a6918a6297d9803c4dc04f328f22041bedff886bbc2962e01',
-        '02c96db2302d19b43d4c69368babace7854cc84eb9e061cde51cfa77ca4a22b8b9',
-        '03c6103b3b83e4a24a0e33a4df246ef11772f9992663db0c35759a5e2ebf68d8e9',
-    ].map(hex => Buffer.from(hex, 'hex'));
+        makePubKey(1),
+        makePubKey(1),
+        makePubKey(1),
+    ].map(Buffer => Buffer);
     const { address } = bitcoin.payments.p2sh({
         redeem: bitcoin.payments.p2ms({ m: 2, pubkeys, network: TESTNET, }),
     });
@@ -58,15 +58,20 @@ function mnemonicToNode() {
 function xpubtoPub() {
     const node = mnemonicToNode();
     const xpriv = node.toBase58();
+    console.log(xpriv);
     const xpub = node.neutered().toBase58();
+    console.log(xpub);
     const privKey = node.derivePath("m/44'/0/0/0/0").toWIF();
+    console.log(privKey);
+    const pubkey = node.derivePath("m/44'/0/0/0/0").publicKey;
+    console.log(pubkey);
     let bip32Interface: BIP32Interface = bip32.fromBase58(xpub);
     return bip32Interface;
 }
 
-const xpub = xpubtoPub();
+const bip32Interface = xpubtoPub();
 
-console.log("xpub: " + xpub);
+console.log("xpubtoPub(): " + JSON.stringify(bip32Interface));
 
 const getAddress = (publicKey: any) => {
     return bitcoin.payments.p2pkh({ pubkey: publicKey }).address
@@ -74,8 +79,20 @@ const getAddress = (publicKey: any) => {
 
 console.log("bip32Interface: " + JSON.stringify(xpubtoPub()));
 let addressIndex = 0;
-const pubKey = xpub.derive(addressIndex).publicKey;
+
+const pubKey = bip32Interface.derive(addressIndex).publicKey;
+console.log(pubKey);
+
+function makePubKey(addressIndex: number){
+    return bip32Interface.derive(addressIndex).publicKey
+}
 
 const address = getAddress(pubKey);
 
 console.log(address);
+
+const multisigAddress = getP2shAddress();
+console.log("multisigAddress: " + multisigAddress);
+
+const testnetMultisigAddress = getP2shTestnetAddress();
+console.log("testnetMultisigAddress: " + testnetMultisigAddress);
