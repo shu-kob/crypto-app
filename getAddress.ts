@@ -60,8 +60,11 @@ function xpubtoPub() {
     const xpriv = node.toBase58();
     console.log(xpriv);
     const xpub = node.neutered().toBase58();
+    console.log(xpub);
     const privKey = node.derivePath("m/44'/0/0/0/0").toWIF();
     console.log(privKey);
+    const pubkey = node.derivePath("m/44'/0/0/0/0").publicKey;
+    console.log(pubkey);
     let bip32Interface: BIP32Interface = bip32.fromBase58(xpub);
     return bip32Interface;
 }
@@ -77,7 +80,7 @@ const getAddress = (publicKey: any) => {
 console.log("bip32Interface: " + JSON.stringify(xpubtoPub()));
 let addressIndex = 0;
 const pubKey = xpub.derive(addressIndex).publicKey;
-
+console.log(pubKey);
 const address = getAddress(pubKey);
 
 console.log(address);
