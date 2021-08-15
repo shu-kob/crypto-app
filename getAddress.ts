@@ -8,7 +8,7 @@ function getRandomPrivKey(){
     const keyPair = bitcoin.ECPair.makeRandom();
     const privKey = keyPair.toWIF()
     console.log("private key WIF: " + privKey);
-    console.log(keyPair.publicKey);
+    console.log("keyPair.publicKey:" + keyPair.publicKey);
     const address = bitcoin.payments.p2pkh({ pubkey: keyPair.publicKey });
     console.log("random address: " + address.address);
     return privKey;
@@ -115,3 +115,26 @@ console.log("multisigAddress: " + multisigAddress);
 
 const testnetMultisigAddress = getP2shTestnetAddress();
 console.log("testnetMultisigAddress: " + testnetMultisigAddress);
+
+const randomAddress = getRandomPrivKey();
+
+function getP2pkhAddress(){
+    const pubkey_buf = makePubKey(1);
+    console.log("pubkey_buf: " + pubkey_buf);
+    const address = bitcoin.payments.p2pkh({ pubkey: pubkey_buf });
+    return address.address;
+}
+
+const p2pkhAddress = getP2pkhAddress();
+console.log("p2pkhAddress:" + p2pkhAddress);
+
+function getP2pkhTestnetAddress(){
+    const pubkey = "031be015696ca8fba3286d19dbc862154a9e7e157d6c5d65cb39d63b84be5929bc";
+    const pubkey_buf = Buffer.from(pubkey, 'hex')
+    console.log("pubkey_buf: " + pubkey_buf);
+    const address = bitcoin.payments.p2pkh({ pubkey: pubkey_buf, network: TESTNET, });
+    return address.address;
+}
+
+const p2pkhTestnetAddress = getP2pkhTestnetAddress();
+console.log("p2pkhTestnetAddress:" + p2pkhTestnetAddress);
