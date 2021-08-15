@@ -80,14 +80,33 @@ const getAddress = (publicKey: any) => {
 console.log("bip32Interface: " + JSON.stringify(xpubtoPub()));
 let addressIndex = 0;
 
-const pubKey = bip32Interface.derive(addressIndex).publicKey;
+const pubKey_buff = bip32Interface.derive(addressIndex).publicKey;
+console.log(pubKey_buff);
+
+function getMultisigAddress(){
+    const pubkeys = [
+        '03380eaa099fed61543d27cad48b4288c65a25cd3509ba0181c2f26d1750a6f8ec',
+        '02f228a300c0d3310deed09b16ead058f2afc519ab39a3906eaf04b1ad85c6c64f',
+        '02c5828ef798fe715c97ecb03564a5b11bb4bf7e408c6813aa51335f6e9e39b4de',
+    ].map(hex => Buffer.from(hex, 'hex'));
+    const { address } = bitcoin.payments.p2sh({
+        redeem: bitcoin.payments.p2ms({ m: 2, pubkeys }),
+    });
+    return address;
+}
+
+const multisigAddressFromPubKey = getMultisigAddress();
+console.log("multisigAddressFromPubKey: " +  multisigAddressFromPubKey);
+
+const pubKey = Buffer.from(pubKey_buff).toString('hex');
+
 console.log(pubKey);
 
 function makePubKey(addressIndex: number){
     return bip32Interface.derive(addressIndex).publicKey
 }
 
-const address = getAddress(pubKey);
+const address = getAddress(pubKey_buff);
 
 console.log(address);
 
