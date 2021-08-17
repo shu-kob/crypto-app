@@ -139,6 +139,16 @@ function getP2pkhTestnetAddress(){
 const p2pkhTestnetAddress = getP2pkhTestnetAddress();
 console.log("p2pkhTestnetAddress:" + p2pkhTestnetAddress);
 
+function getp2wpkhAddress(){
+    const pubkey_buf = makePubKey(1);
+    console.log("pubkey_buf: " + pubkey_buf);
+    const address = bitcoin.payments.p2wpkh({ pubkey: pubkey_buf, });
+    return address.address;
+}
+
+const p2wpkhAddress = getp2wpkhAddress();
+console.log("p2wpkhAddress: " + p2wpkhAddress);
+
 function getp2wpkhTestnetAddress(){
     const pubkey = "031be015696ca8fba3286d19dbc862154a9e7e157d6c5d65cb39d63b84be5929bc";
     const pubkey_buf = Buffer.from(pubkey, 'hex')
@@ -148,4 +158,4 @@ function getp2wpkhTestnetAddress(){
 }
 
 const p2wpkhTestnetAddress = getp2wpkhTestnetAddress();
-console.log("p2wpkhTestnetAddress:" + p2wpkhTestnetAddress);
+console.log("p2wpkhTestnetAddress: " + p2wpkhTestnetAddress);
