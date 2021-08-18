@@ -159,3 +159,33 @@ function getp2wpkhTestnetAddress(){
 
 const p2wpkhTestnetAddress = getp2wpkhTestnetAddress();
 console.log("p2wpkhTestnetAddress: " + p2wpkhTestnetAddress);
+
+function getSegwitMultisigAddress(){
+    const pubkeys = [
+        '03380eaa099fed61543d27cad48b4288c65a25cd3509ba0181c2f26d1750a6f8ec',
+        '02f228a300c0d3310deed09b16ead058f2afc519ab39a3906eaf04b1ad85c6c64f',
+        '02c5828ef798fe715c97ecb03564a5b11bb4bf7e408c6813aa51335f6e9e39b4de',
+    ].map(hex => Buffer.from(hex, 'hex'));
+    const { address } = bitcoin.payments.p2wsh({
+        redeem: bitcoin.payments.p2ms({ m: 2, pubkeys }),
+    });
+    return address;
+}
+
+const segwitMultisigAddress = getSegwitMultisigAddress();
+console.log("p2wsh mainnet: " + segwitMultisigAddress);
+
+function getSegwitMultisigTestnetAddress(){
+    const pubkeys = [
+        makePubKey(1),
+        makePubKey(1),
+        makePubKey(1),
+    ].map(Buffer => Buffer);
+    const { address } = bitcoin.payments.p2wsh({
+        redeem: bitcoin.payments.p2ms({ m: 2, pubkeys, network: TESTNET, }),
+    });
+    return address;
+}
+
+const segwitMultisigTestnetAddress = getSegwitMultisigTestnetAddress();
+console.log("p2wsh testnet: " + segwitMultisigTestnetAddress);
