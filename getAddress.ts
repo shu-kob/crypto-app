@@ -226,7 +226,6 @@ console.log("P2SHP2WSHTestnetAddress: " + P2SHP2WSHTestnetAddress);
 
 function getp2shp2wpkhAddress(){
     const pubkey_buf = makePubKey(1);
-    console.log("pubkey_buf: " + pubkey_buf);
     const address = bitcoin.payments.p2sh({
         redeem: bitcoin.payments.p2wpkh({ pubkey: pubkey_buf, }),
     });
@@ -239,7 +238,6 @@ console.log("P2shp2wpkhAddress: " + p2shp2wpkhAddress);
 function getP2shp2wpkhTestnetAddress(){
     const pubkey = "031be015696ca8fba3286d19dbc862154a9e7e157d6c5d65cb39d63b84be5929bc";
     const pubkey_buf = Buffer.from(pubkey, 'hex')
-    console.log("pubkey_buf: " + pubkey_buf);
     const address = bitcoin.payments.p2sh({
         redeem: bitcoin.payments.p2wpkh({ pubkey: pubkey_buf, network: TESTNET, }),
     });
