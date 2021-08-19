@@ -223,3 +223,15 @@ function getP2SHP2WSHTestnetAddress(){
 
 const P2SHP2WSHTestnetAddress = getP2SHP2WSHTestnetAddress();
 console.log("P2SHP2WSHTestnetAddress: " + P2SHP2WSHTestnetAddress);
+
+function getp2shp2wpkhAddress(){
+    const pubkey_buf = makePubKey(1);
+    console.log("pubkey_buf: " + pubkey_buf);
+    const address = bitcoin.payments.p2sh({
+        redeem: bitcoin.payments.p2wpkh({ pubkey: pubkey_buf, }),
+    });
+    return address.address;
+}
+
+const p2shp2wpkhAddress = getp2shp2wpkhAddress();
+console.log("P2shp2wpkhAddress: " + p2shp2wpkhAddress);
