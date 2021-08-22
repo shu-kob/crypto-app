@@ -27,8 +27,8 @@ function mnemonicToPubKey(addressIndex: number) {
 function getp2wpkhAddress(addressIndex: number){
     const pubkey_buf = mnemonicToPubKey(addressIndex);
     console.log(pubkey_buf);
-    const address = bitcoin.payments.p2wpkh({ pubkey: pubkey_buf, network: TESTNET, });
-    return address.address;
+    const address = bitcoin.payments.p2wpkh({ pubkey: pubkey_buf, network: TESTNET, }).address;
+    return address;
 }
 
 function mnemonicToPrivKey(addressIndex: number) {
