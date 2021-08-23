@@ -87,9 +87,9 @@ console.log(obj.privateKey);
 
 const priKey_buf = bitcoin.ECPair.fromPrivateKey(obj.privateKey);
 console.log("priKey_buf :" + JSON.stringify(priKey_buf));
-console.log("01");
+
 psbt.signInput(0, priKey_buf);
-console.log("02");
+
 psbt.validateSignaturesOfInput(0);
 psbt.finalizeAllInputs();
 const txHex = psbt.extractTransaction().toHex();
