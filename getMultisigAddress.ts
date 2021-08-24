@@ -1,6 +1,4 @@
 import * as bitcoin from 'bitcoinjs-lib';
-import * as bip32 from 'bip32';
-import * as bip39 from 'bip39';
 const MAINNET = bitcoin.networks.bitcoin;
 const TESTNET = bitcoin.networks.testnet;
 // let bitcoinNetwork = MAINNET;
@@ -17,11 +15,11 @@ function xpubtoPubkey(xpub: any, addressIndex: number){
 }
 
 const pubkey1 = xpubtoPubkey(xpub1, 0);
-console.log(pubkey1);
+console.log("pubkey1: " + pubkey1);
 const pubkey2 = xpubtoPubkey(xpub2, 0);
-console.log(pubkey2);
+console.log("pubkey2: " + pubkey2);
 const pubkey3 = xpubtoPubkey(xpub3, 0);
-console.log(pubkey3);
+console.log("pubkey3: " + pubkey3);
 
 
 function getP2wshAddress(){
