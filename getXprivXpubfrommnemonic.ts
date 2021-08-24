@@ -15,10 +15,10 @@ function mnemonicToXprivXpub() {
     const xpriv = node.derivePath("m/44'/1/0").toBase58();
     console.log("xpriv: " + xpriv);
     const xpub = node.derivePath("m/44'/1/0").neutered().toBase58();
-    console.log("xprub: " + xpub);
+    console.log("xpub: " + xpub);
     return { xpriv, xpub };
 }
 
 const { xpriv, xpub } = mnemonicToXprivXpub();
 console.log("xpriv: " + xpriv);
-console.log("xprub: " + xpub);
+console.log("xpub: " + xpub);
