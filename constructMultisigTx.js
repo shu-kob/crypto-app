@@ -1,4 +1,4 @@
-const bitcoin =require('bitcoinjs-lib');
+const bitcoin = require('bitcoinjs-lib');
 const wif = require('wif');
 const {alice, bob, carol} = require('./wallets.json')
 const MAINNET = bitcoin.networks.bitcoin;
