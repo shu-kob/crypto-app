@@ -1,6 +1,6 @@
 const bitcoin = require('bitcoinjs-lib');
 const wif = require('wif');
-const {alice, bob, carol} = require('./wallets.json')
+const {alice, bob, carol} = require('./wallets.json');
 const MAINNET = bitcoin.networks.bitcoin;
 const TESTNET = bitcoin.networks.testnet;
 // let bitcoinNetwork = MAINNET;
@@ -29,9 +29,6 @@ function xprivtoPrivkey(xpriv: any, addressIndex: number){
     const privKey_buf = bitcoin.ECPair.fromPrivateKey(obj.privateKey);
     console.log("priKey_buf :" + JSON.stringify(privKey_buf));
     return privKey;
-    /*
-    return privKey_buff;
-    */
 }
 
 function privkeyToPubKey(privkey: any){
