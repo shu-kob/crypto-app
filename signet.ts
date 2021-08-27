@@ -85,10 +85,10 @@ console.log("obj :" + JSON.stringify(obj));
 
 console.log(obj.privateKey);
 
-const priKey_buf = bitcoin.ECPair.fromPrivateKey(obj.privateKey);
-console.log("priKey_buf :" + JSON.stringify(priKey_buf));
+const privKey_buf = bitcoin.ECPair.fromPrivateKey(obj.privateKey);
+console.log("priKey_buf :" + JSON.stringify(privKey_buf));
 
-psbt.signInput(0, priKey_buf);
+psbt.signInput(0, privKey_buf);
 
 psbt.validateSignaturesOfInput(0);
 psbt.finalizeAllInputs();
