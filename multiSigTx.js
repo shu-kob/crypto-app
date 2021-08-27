@@ -12,8 +12,6 @@ const xpriv1 = require('./xpriv1.json').xpriv;
 const xpriv2 = require('./xpriv2.json').xpriv;
 const xpriv3 = require('./xpriv3.json').xpriv;
 
-console.log(xpriv1)
-
 function getPrivkeyFromXpriv(xpriv) {
     const privkeyNode = bitcoin.bip32.fromBase58(xpriv, bitcoinNetwork);
     const privateKey_wif = privkeyNode.derive(1).derive(0).derive(0).derive(0).toWIF();
@@ -37,8 +35,6 @@ function getPubkeyFromXpub(xpub) {
 const pubkey1 = getPubkeyFromXpub(xpub1);
 const pubkey2 = getPubkeyFromXpub(xpub2);
 const pubkey3 = getPubkeyFromXpub(xpub3);
-
-console.log(pubkey1)
 
 const p2ms = bitcoin.payments.p2ms({
     m: 2, pubkeys: [
