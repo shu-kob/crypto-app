@@ -2,17 +2,34 @@ const bitcoin = require('bitcoinjs-lib');
 const bip32 = require('bip32');
 const bip39 = require('bip39');
 const wif = require('wif');
+const { xpub } = require('./xpub.json');
 const MAINNET = bitcoin.networks.bitcoin;
 const TESTNET = bitcoin.networks.testnet;
 // let bitcoinNetwork = MAINNET;
 let bitcoinNetwork = TESTNET;
 
-const xpriv = "tprv8gPHaXkdRLgnE1NgPqZPkH1ffYBiQkuAVowFDi5rGDuxj19vuBsD53cmXHxq8u4gmDv9t8a2YaY56roA8KNZRNTNSe6Yv6jVdDhUvxYbcRj";
+const { xpriv } = require('./xpriv.json');
 
 const privkeyNode = bitcoin.bip32.fromBase58(xpriv, bitcoinNetwork);
 const privateKey_wif = privkeyNode.derive(1).derive(0).derive(0).derive(0).toWIF();
 console.log("privateKey_wif:");
 console.log(privateKey_wif);
+
+function getPubkeyFromXpub(xpub) {
+    const pubkeyNode = bitcoin.bip32.fromBase58(xpub, bitcoinNetwork);
+    const pubkey = pubkeyNode.derive(1).derive(0).derive(0).derive(0).publicKey;
+    return pubkey;
+}
+
+const pubkey = getPubkeyFromXpub(xpub);
+
+const p2wpkh = bitcoin.payments.p2wpkh({ pubkey: pubkey, network: bitcoinNetwork, });
+
+console.log('Witness script:')
+console.log(p2wpkh.output.toString('hex'))
+
+console.log('P2WPKH address')
+console.log(p2wpkh.address) 
 
 const psbt = new bitcoin.Psbt({ network: bitcoinNetwork });
 
@@ -22,10 +39,7 @@ psbt.addInput({
     sequence: 0xffffffff,
 
     witnessUtxo: {
-    script: Buffer.from(
-    '0014139cc0186ad9fefb2ceb1ce77ef6a7eb960ad05d',
-    'hex',
-    ),
+    script: Buffer.from(p2wpkh.output.toString('hex'),'hex',),
     value: 100000,
     },
 });
@@ -35,7 +49,7 @@ psbt.addOutput({
 });
 psbt.addOutput({
     address: "tb1qzwwvqxr2m8l0kt8trnnhaa48awtq45zauflz5y",
-    value: 29847,
+    value: 29890,
 });
 
 const obj = wif.decode(privateKey_wif);
