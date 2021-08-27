@@ -16,15 +16,15 @@ function getP2pkhAddress(){
     return address;
 }
 
-function getP2wpkhAddress(){
-    const address = bitcoin.payments.p2wpkh({ pubkey: pubkey, network: bitcoinNetwork, }).address;
-    return address;
-}
-
 function getP2shP2wpkhAddress(){
     const address = bitcoin.payments.p2sh({
         redeem: bitcoin.payments.p2wpkh({ pubkey: pubkey, network: bitcoinNetwork, })
     }).address;
+    return address;
+}
+
+function getP2wpkhAddress(){
+    const address = bitcoin.payments.p2wpkh({ pubkey: pubkey, network: bitcoinNetwork, }).address;
     return address;
 }
 
