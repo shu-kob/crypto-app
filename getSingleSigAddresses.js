@@ -1,12 +1,11 @@
 const bitcoin = require('bitcoinjs-lib');
 const bip32 = require('bip32');
 const bip39 = require('bip39');
+const { xpub } = require('./xpub.json');
 const MAINNET = bitcoin.networks.bitcoin;
 const TESTNET = bitcoin.networks.testnet;
 // let bitcoinNetwork = MAINNET;
 let bitcoinNetwork = TESTNET;
-
-const xpub  = "tpubDD5KiwnsZiNT7UQUHVDz9gfnEZhea66557Y2WE89gViMZVQhXagoFYEdhSnsRKtJJrv9yAmEkdCUA68GPmPk9W8tdfq5iWU7JpcXpEUfhyL";
 
 const pubkeyNode = bitcoin.bip32.fromBase58(xpub, bitcoinNetwork);
 const pubkey = pubkeyNode.derive(1).derive(0).derive(0).derive(0).publicKey;
