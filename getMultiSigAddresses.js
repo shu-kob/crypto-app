@@ -8,13 +8,13 @@ const TESTNET = bitcoin.networks.testnet;
 let bitcoinNetwork = TESTNET;
 
 const pubkeyNode1 = bitcoin.bip32.fromBase58(xpub1, bitcoinNetwork);
-const pubkey1 = pubkeyNode1.derive(1).derive(0).derive(0).derive(0).publicKey;
+const pubkey1 = pubkeyNode1.derive(0).derive(0).publicKey;
 
 const pubkeyNode2 = bitcoin.bip32.fromBase58(xpub2, bitcoinNetwork);
-const pubkey2 = pubkeyNode2.derive(1).derive(0).derive(0).derive(0).publicKey;
+const pubkey2 = pubkeyNode2.derive(0).derive(0).publicKey;
 
 const pubkeyNode3 = bitcoin.bip32.fromBase58(xpub3, bitcoinNetwork);
-const pubkey3 = pubkeyNode3.derive(1).derive(0).derive(0).derive(0).publicKey;
+const pubkey3 = pubkeyNode3.derive(0).derive(0).publicKey;
 
 const pubkeys = [
     pubkey1,
