@@ -8,7 +8,7 @@ const TESTNET = bitcoin.networks.testnet;
 let bitcoinNetwork = TESTNET;
 
 const pubkeyNode = bitcoin.bip32.fromBase58(xpub, bitcoinNetwork);
-const pubkey = pubkeyNode.derive(1).derive(0).derive(0).derive(0).publicKey;
+const pubkey = pubkeyNode.derive(0).derive(0).publicKey;
 
 function getP2pkhAddress(){
     const address = bitcoin.payments.p2pkh({ pubkey: pubkey, network: bitcoinNetwork, }).address;
