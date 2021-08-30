@@ -10,8 +10,8 @@ function mnemonicToXprivXpub() {
     const mnemonic = bip39.generateMnemonic(256);
     const seed = bip39.mnemonicToSeedSync(mnemonic);
     const node = bip32.fromSeed(seed, bitcoinNetwork);
-    const xpriv = node.derivePath("m/44'/1/0").toBase58();
-    const xpub = node.derivePath("m/44'/1/0").neutered().toBase58();
+    const xpriv = node.derivePath("m/44'/1'/0'").toBase58();
+    const xpub = node.derivePath("m/44'/1'/0'").neutered().toBase58();
     return { mnemonic, xpriv, xpub };
 }
 
