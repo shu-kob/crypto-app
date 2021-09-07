@@ -12,9 +12,9 @@ const xpriv1 = require('./xpriv1.json').xpriv;
 const xpriv2 = require('./xpriv2.json').xpriv;
 const xpriv3 = require('./xpriv3.json').xpriv;
 
-function getPrivkeyFromXpriv(xpriv) {
+function getPrivkeyFromXpriv(xpriv, addressIndex) {
     const privkeyNode = bitcoin.bip32.fromBase58(xpriv, bitcoinNetwork);
-    const privateKey_wif = privkeyNode.derive(1).derive(0).derive(0).derive(0).toWIF();
+    const privateKey_wif = privkeyNode.derive(0).derive(addressIndex).toWIF();
     console.log("privateKey_wif:");
     console.log(privateKey_wif);
     const obj = wif.decode(privateKey_wif);
@@ -22,19 +22,19 @@ function getPrivkeyFromXpriv(xpriv) {
     return privkey;
 }
 
-const privkey1 = getPrivkeyFromXpriv(xpriv1);
-const privkey2 = getPrivkeyFromXpriv(xpriv2);
-const privkey3 = getPrivkeyFromXpriv(xpriv3);
+const privkey1 = getPrivkeyFromXpriv(xpriv1, 0);
+const privkey2 = getPrivkeyFromXpriv(xpriv2, 0);
+const privkey3 = getPrivkeyFromXpriv(xpriv3, 0);
 
-function getPubkeyFromXpub(xpub) {
+function getPubkeyFromXpub(xpub, addressIndex) {
     const pubkeyNode = bitcoin.bip32.fromBase58(xpub, bitcoinNetwork);
-    const pubkey = pubkeyNode.derive(1).derive(0).derive(0).derive(0).publicKey;
+    const pubkey = pubkeyNode.derive(0).derive(addressIndex).publicKey;
     return pubkey;
 }
 
-const pubkey1 = getPubkeyFromXpub(xpub1);
-const pubkey2 = getPubkeyFromXpub(xpub2);
-const pubkey3 = getPubkeyFromXpub(xpub3);
+const pubkey1 = getPubkeyFromXpub(xpub1, 0);
+const pubkey2 = getPubkeyFromXpub(xpub2, 0);
+const pubkey3 = getPubkeyFromXpub(xpub3, 0);
 
 const p2ms = bitcoin.payments.p2ms({
     m: 2, pubkeys: [
@@ -55,21 +55,21 @@ console.log(p2wsh.redeem.output)
 
 const psbt = new bitcoin.Psbt({ network: bitcoinNetwork });
 psbt.addInput({
-    hash: '19fdd3ba91d7b7e2a05a49cdf20998334d5e5a774025e8cb51bfc2c4d06c364b',
-    index: 0,
+    hash: '22ed59b3f8443a45fcdb80f3d4121b38876a4ff30e31b77e96b9aca62b24892f',
+    index: 1,
     witnessScript: p2wsh.redeem.output,
     witnessUtxo: {
     script: Buffer.from('0020' + bitcoin.crypto.sha256(p2ms.output).toString('hex'), 'hex'),
-    value: 70000,
+    value: 10000000,
     },
 });
 psbt.addOutput({
-    address: "tb1qzwwvqxr2m8l0kt8trnnhaa48awtq45zauflz5y",
-    value: 40000,
+    address: "tb1q8zgpsl7qvcr6ye0c6njmutshr688whtd2jpdjd",
+    value: 3000000,
 });
 psbt.addOutput({
-    address: "tb1q2adzgyzuy3msvjjfn3pkghf5fnwtwmxcglw3cuk5gvvv3ahmt63qqqa3n6",
-    value: 29811,
+    address: "tb1q77hfx3crqmpjntkshv7ssyaz85lepe4x7mwurk",
+    value: 6999823,
 });
 
 psbt.signInput(0, privkey1)
