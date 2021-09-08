@@ -20,13 +20,13 @@ function getPrivKey(xpriv, addressIndex){
 
 const privkey = getPrivKey(xpriv, 0);
 
-function getPubkeyFromXpub(xpub) {
+function getPubkeyFromXpub(xpub, addressIndex) {
     const pubkeyNode = bitcoin.bip32.fromBase58(xpub, bitcoinNetwork);
-    const pubkey = pubkeyNode.derive(0).derive(0).publicKey;
+    const pubkey = pubkeyNode.derive(0).derive(addressIndex).publicKey;
     return pubkey;
 }
 
-const pubkey = getPubkeyFromXpub(xpub);
+const pubkey = getPubkeyFromXpub(xpub, 0);
 
 const p2wpkh = bitcoin.payments.p2wpkh({ pubkey: pubkey, network: bitcoinNetwork, });
 
