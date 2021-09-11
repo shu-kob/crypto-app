@@ -12,6 +12,8 @@ const xpriv1 = require('./xpriv1.json').xpriv;
 const xpriv2 = require('./xpriv2.json').xpriv;
 const xpriv3 = require('./xpriv3.json').xpriv;
 
+let addressIndex = 0;
+
 function getPrivkeyFromXpriv(xpriv, addressIndex) {
     const privkeyNode = bitcoin.bip32.fromBase58(xpriv, bitcoinNetwork);
     const privateKey_wif = privkeyNode.derive(0).derive(addressIndex).toWIF();
@@ -22,9 +24,9 @@ function getPrivkeyFromXpriv(xpriv, addressIndex) {
     return privkey;
 }
 
-const privkey1 = getPrivkeyFromXpriv(xpriv1, 0);
-const privkey2 = getPrivkeyFromXpriv(xpriv2, 0);
-const privkey3 = getPrivkeyFromXpriv(xpriv3, 0);
+const privkey1 = getPrivkeyFromXpriv(xpriv1, addressIndex);
+const privkey2 = getPrivkeyFromXpriv(xpriv2, addressIndex);
+const privkey3 = getPrivkeyFromXpriv(xpriv3, addressIndex);
 
 function getPubkeyFromXpub(xpub, addressIndex) {
     const pubkeyNode = bitcoin.bip32.fromBase58(xpub, bitcoinNetwork);
@@ -32,9 +34,9 @@ function getPubkeyFromXpub(xpub, addressIndex) {
     return pubkey;
 }
 
-const pubkey1 = getPubkeyFromXpub(xpub1, 0);
-const pubkey2 = getPubkeyFromXpub(xpub2, 0);
-const pubkey3 = getPubkeyFromXpub(xpub3, 0);
+const pubkey1 = getPubkeyFromXpub(xpub1, addressIndex);
+const pubkey2 = getPubkeyFromXpub(xpub2, addressIndex);
+const pubkey3 = getPubkeyFromXpub(xpub3, addressIndex);
 
 const pubkeys = [
     pubkey1,
