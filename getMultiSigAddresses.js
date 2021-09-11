@@ -13,9 +13,11 @@ function getPublicKey(xpub, addressIndex){
     return pubkey
 }
 
-const pubkey1 = getPublicKey(xpub1, 0);
-const pubkey2 = getPublicKey(xpub2, 0);
-const pubkey3 = getPublicKey(xpub3, 0);
+let addressIndex = 0;
+
+const pubkey1 = getPublicKey(xpub1, addressIndex);
+const pubkey2 = getPublicKey(xpub2, addressIndex);
+const pubkey3 = getPublicKey(xpub3, addressIndex);
 
 const pubkeys = [
     pubkey1,
