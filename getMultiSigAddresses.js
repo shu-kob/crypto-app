@@ -7,13 +7,13 @@ const TESTNET = bitcoin.networks.testnet;
 // let bitcoinNetwork = MAINNET;
 let bitcoinNetwork = TESTNET;
 
+let addressIndex = 0;
+
 function getPublicKey(xpub, addressIndex){
     const pubkeyNode = bitcoin.bip32.fromBase58(xpub, bitcoinNetwork);
     const pubkey = pubkeyNode.derive(0).derive(addressIndex).publicKey;
     return pubkey
 }
-
-let addressIndex = 0;
 
 const pubkey1 = getPublicKey(xpub1, addressIndex);
 const pubkey2 = getPublicKey(xpub2, addressIndex);
