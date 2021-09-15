@@ -40,21 +40,21 @@ console.log(p2wpkh.address)
 const psbt = new bitcoin.Psbt({ network: bitcoinNetwork });
 
 psbt.addInput({
-    hash: '486c02ebc83d3fd819d23ec994af1b7bf332fcd6b3ce15480b4f4cdf19e068df',
-    index: 0,
+    hash: '2d80282573483c86c5d7e23f6e1b364071a68a9b9432257de1bdba14b2df49d4',
+    index: 1,
     sequence: 0xffffffff,
     witnessUtxo: {
     script: Buffer.from(p2wpkh.output.toString('hex'),'hex',),
-    value: 100000,
+    value: 10000000,
     },
 });
 psbt.addOutput({
     address: "tb1q37qtrf5gghczwczkmpnuemrlh8mxvm5s8tz2wz",
-    value: 49859,
+    value: 4999859,
 });
 psbt.addOutput({
     address: "tb1qhpcaf35sn0d780tjpyje6ykz2a4r73p6slfmue",
-    value: 50000,
+    value: 5000000,
 });
 
 const obj = wif.decode(privateKey_wif);
