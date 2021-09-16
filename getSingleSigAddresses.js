@@ -13,33 +13,53 @@ function getPublicKey(xpub, addressIndex){
     return pubkey
 }
 
-const pubkey = getPublicKey(xpub, 0);
+function getChangePublicKey(xpub, addressIndex){
+    const pubkeyNode = bitcoin.bip32.fromBase58(xpub, bitcoinNetwork);
+    const pubkey = pubkeyNode.derive(1).derive(addressIndex).publicKey;
+    return pubkey
+}
 
-function getP2pkhAddress(){
+function getP2pkhAddress(pubkey){
     const address = bitcoin.payments.p2pkh({ pubkey: pubkey, network: bitcoinNetwork, }).address;
     return address;
 }
 
-function getP2shP2wpkhAddress(){
+function getP2shP2wpkhAddress(pubkey){
     const address = bitcoin.payments.p2sh({
         redeem: bitcoin.payments.p2wpkh({ pubkey: pubkey, network: bitcoinNetwork, })
     }).address;
     return address;
 }
 
-function getP2wpkhAddress(){
+function getP2wpkhAddress(pubkey){
     const address = bitcoin.payments.p2wpkh({ pubkey: pubkey, network: bitcoinNetwork, }).address;
     return address;
 }
 
-const p2pkhAddress = getP2pkhAddress(0);
+const pubkey = getPublicKey(xpub, 0);
+
+const changePubkey = getChangePublicKey(xpub, 0);
+
+const p2pkhAddress = getP2pkhAddress(pubkey);
 console.log("P2PKH:");
 console.log(p2pkhAddress);
 
-const p2shP2wpkhAddress = getP2shP2wpkhAddress(0);
+const p2pkhChangeAddress = getP2pkhAddress(changePubkey);
+console.log("change:");
+console.log(p2pkhChangeAddress);
+
+const p2shP2wpkhAddress = getP2shP2wpkhAddress(pubkey);
 console.log("P2SH-P2WPKH:");
 console.log(p2shP2wpkhAddress);
 
-const p2wpkhAddress = getP2wpkhAddress(0);
+const p2shP2wpkhChangeAddress = getP2shP2wpkhAddress(changePubkey);
+console.log("change:");
+console.log(p2shP2wpkhChangeAddress);
+
+const p2wpkhAddress = getP2wpkhAddress(pubkey);
 console.log("P2WPKH:");
 console.log(p2wpkhAddress);
+
+const p2wpkhChangeAddress = getP2wpkhAddress(changePubkey);
+console.log("change:");
+console.log(p2wpkhChangeAddress);
