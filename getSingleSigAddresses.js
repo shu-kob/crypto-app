@@ -36,9 +36,11 @@ function getP2wpkhAddress(pubkey){
     return address;
 }
 
-const pubkey = getPublicKey(xpub, 0);
+let addressIndex = 0;
 
-const changePubkey = getChangePublicKey(xpub, 0);
+const pubkey = getPublicKey(xpub, addressIndex);
+
+const changePubkey = getChangePublicKey(xpub, addressIndex);
 
 const p2pkhAddress = getP2pkhAddress(pubkey);
 console.log("P2PKH:");
