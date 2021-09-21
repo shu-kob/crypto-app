@@ -7,15 +7,9 @@ const TESTNET = bitcoin.networks.testnet;
 // let bitcoinNetwork = MAINNET;
 let bitcoinNetwork = TESTNET;
 
-function getPublicKey(xpub, addressIndex){
+function getPublicKey(xpub, isChange, addressIndex){
     const pubkeyNode = bitcoin.bip32.fromBase58(xpub, bitcoinNetwork);
-    const pubkey = pubkeyNode.derive(0).derive(addressIndex).publicKey;
-    return pubkey
-}
-
-function getChangePublicKey(xpub, addressIndex){
-    const pubkeyNode = bitcoin.bip32.fromBase58(xpub, bitcoinNetwork);
-    const pubkey = pubkeyNode.derive(1).derive(addressIndex).publicKey;
+    const pubkey = pubkeyNode.derive(isChange).derive(addressIndex).publicKey;
     return pubkey
 }
 
@@ -37,10 +31,12 @@ function getP2wpkhAddress(pubkey){
 }
 
 let addressIndex = 0;
+let nonChangeAddress = 0;
+let changeAddress = 1;
 
-const pubkey = getPublicKey(xpub, addressIndex);
+const pubkey = getPublicKey(xpub, nonChangeAddress, addressIndex);
 
-const changePubkey = getChangePublicKey(xpub, addressIndex);
+const changePubkey = getPublicKey(xpub, changeAddress, addressIndex);
 
 const p2pkhAddress = getP2pkhAddress(pubkey);
 console.log("P2PKH:");

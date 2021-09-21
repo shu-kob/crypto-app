@@ -7,27 +7,23 @@ const TESTNET = bitcoin.networks.testnet;
 // let bitcoinNetwork = MAINNET;
 let bitcoinNetwork = TESTNET;
 
-function getPublicKey(xpub, addressIndex){
+function getPublicKey(xpub, isChange, addressIndex){
     const pubkeyNode = bitcoin.bip32.fromBase58(xpub, bitcoinNetwork);
-    const pubkey = pubkeyNode.derive(0).derive(addressIndex).publicKey;
-    return pubkey
-}
-
-function getChangePublicKey(xpub, addressIndex){
-    const pubkeyNode = bitcoin.bip32.fromBase58(xpub, bitcoinNetwork);
-    const pubkey = pubkeyNode.derive(1).derive(addressIndex).publicKey;
+    const pubkey = pubkeyNode.derive(isChange).derive(addressIndex).publicKey;
     return pubkey
 }
 
 let addressIndex = 0;
+let nonChangeAddress = 0;
+let changeAddress = 1;
 
-const pubkey1 = getPublicKey(xpub1, addressIndex);
-const pubkey2 = getPublicKey(xpub2, addressIndex);
-const pubkey3 = getPublicKey(xpub3, addressIndex);
+const pubkey1 = getPublicKey(xpub1, nonChangeAddress, addressIndex);
+const pubkey2 = getPublicKey(xpub2, nonChangeAddress, addressIndex);
+const pubkey3 = getPublicKey(xpub3, nonChangeAddress, addressIndex);
 
-const changePubkey1 = getChangePublicKey(xpub1, addressIndex);
-const changePubkey2 = getChangePublicKey(xpub2, addressIndex);
-const changePubkey3 = getChangePublicKey(xpub3, addressIndex);
+const changePubkey1 = getPublicKey(xpub1, changeAddress, addressIndex);
+const changePubkey2 = getPublicKey(xpub2, changeAddress, addressIndex);
+const changePubkey3 = getPublicKey(xpub3, changeAddress, addressIndex);
 
 const pubkeys = [
     pubkey1,
