@@ -37,7 +37,7 @@ function getP2wpkhAddress(xpub, isChange, addressIndex){
 let nonChangeAddress = 0;
 let changeAddress = 1;
 
-for (let addressIndex = 0;addressIndex < 5;addressIndex++){
+for (let addressIndex = 0; addressIndex < 5; addressIndex++){
     console.log("addressIndex: " + addressIndex);
 
     const p2pkhAddress = getP2pkhAddress(xpub, nonChangeAddress, addressIndex);
