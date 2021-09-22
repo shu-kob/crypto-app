@@ -13,38 +13,27 @@ function getPublicKey(xpub, isChange, addressIndex){
     return pubkey
 }
 
-let addressIndex = 0;
 let nonChangeAddress = 0;
 let changeAddress = 1;
 
-const pubkey1 = getPublicKey(xpub1, nonChangeAddress, addressIndex);
-const pubkey2 = getPublicKey(xpub2, nonChangeAddress, addressIndex);
-const pubkey3 = getPublicKey(xpub3, nonChangeAddress, addressIndex);
-
-const changePubkey1 = getPublicKey(xpub1, changeAddress, addressIndex);
-const changePubkey2 = getPublicKey(xpub2, changeAddress, addressIndex);
-const changePubkey3 = getPublicKey(xpub3, changeAddress, addressIndex);
-
-const pubkeys = [
-    pubkey1,
-    pubkey2,
-    pubkey3,
-].map(Buffer => Buffer);
-
-const changePubkeys = [
-    changePubkey1,
-    changePubkey2,
-    changePubkey3,
-].map(Buffer => Buffer);
-
-function getP2shAddress(pubkeys){
+function getP2shAddress(xpub1, xpub2, xpub3, isChange, addressIndex){
+    const pubkeys = [
+        getPublicKey(xpub1, isChange, addressIndex),
+        getPublicKey(xpub2, isChange, addressIndex),
+        getPublicKey(xpub3, isChange, addressIndex),
+    ].map(Buffer => Buffer);
     const address = bitcoin.payments.p2sh({
         redeem: bitcoin.payments.p2ms({ m: 2, pubkeys, network: bitcoinNetwork, }),
     }).address;
     return address;
 }
 
-function getP2shP2wshAddress(pubkeys){
+function getP2shP2wshAddress(xpub1, xpub2, xpub3, isChange, addressIndex){
+    const pubkeys = [
+        getPublicKey(xpub1, isChange, addressIndex),
+        getPublicKey(xpub2, isChange, addressIndex),
+        getPublicKey(xpub3, isChange, addressIndex),
+    ].map(Buffer => Buffer);
     const address = bitcoin.payments.p2sh({
         redeem: bitcoin.payments.p2wsh({
             redeem: bitcoin.payments.p2ms({ m: 2, pubkeys, network: bitcoinNetwork, })
@@ -53,33 +42,42 @@ function getP2shP2wshAddress(pubkeys){
     return address;
 }
 
-function getP2wshAddress(pubkeys){
+function getP2wshAddress(xpub1, xpub2, xpub3, isChange, addressIndex){
+    const pubkeys = [
+        getPublicKey(xpub1, isChange, addressIndex),
+        getPublicKey(xpub2, isChange, addressIndex),
+        getPublicKey(xpub3, isChange, addressIndex),
+    ].map(Buffer => Buffer);
     const address = bitcoin.payments.p2wsh({
         redeem: bitcoin.payments.p2ms({ m: 2, pubkeys, network: bitcoinNetwork, }),
     }).address;
     return address;
 }
 
-const p2shAddress = getP2shAddress(pubkeys);
-console.log("P2SH:");
-console.log(p2shAddress);
+for (let addressIndex = 0; addressIndex < 5; addressIndex++){
+    console.log("addressIndex: " + addressIndex);
+    
+    const p2shAddress = getP2shAddress(xpub1, xpub2, xpub3, nonChangeAddress, addressIndex);
+    console.log("P2SH:");
+    console.log(p2shAddress);
 
-const p2shChangeAddress = getP2shAddress(changePubkeys);
-console.log("change:");
-console.log(p2shChangeAddress);
+    const p2shChangeAddress = getP2shAddress(xpub1, xpub2, xpub3, changeAddress, addressIndex);
+    console.log("change:");
+    console.log(p2shChangeAddress);
 
-const p2shP2wshAddress = getP2shP2wshAddress(pubkeys);
-console.log("P2SH-P2WSH:");
-console.log(p2shP2wshAddress);
+    const p2shP2wshAddress = getP2shP2wshAddress(xpub1, xpub2, xpub3, nonChangeAddress, addressIndex);
+    console.log("P2SH-P2WSH:");
+    console.log(p2shP2wshAddress);
 
-const p2shP2wshChangeAddress = getP2shP2wshAddress(changePubkeys);
-console.log("change:");
-console.log(p2shP2wshChangeAddress);
+    const p2shP2wshChangeAddress = getP2shP2wshAddress(xpub1, xpub2, xpub3, changeAddress, addressIndex);
+    console.log("change:");
+    console.log(p2shP2wshChangeAddress);
 
-const p2wshAddress = getP2wshAddress(pubkeys);
-console.log("P2WSH:");
-console.log(p2wshAddress);
+    const p2wshAddress = getP2wshAddress(xpub1, xpub2, xpub3, nonChangeAddress, addressIndex);
+    console.log("P2WSH:");
+    console.log(p2wshAddress);
 
-const p2wshChangeAddress = getP2wshAddress(changePubkeys);
-console.log("change:");
-console.log(p2wshChangeAddress);
+    const p2wshChangeAddress = getP2wshAddress(xpub1, xpub2, xpub3, changeAddress, addressIndex);
+    console.log("change:");
+    console.log(p2wshChangeAddress);
+}
