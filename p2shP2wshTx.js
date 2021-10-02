@@ -2,23 +2,22 @@ const bitcoin = require('bitcoinjs-lib');
 const bip32 = require('bip32');
 const bip39 = require('bip39');
 const wif = require('wif');
-const {xpub1, xpub2, xpub3} = require('./xpubs.json');
+const { xpub1, xpub2, xpub3 } = require('./xpubs.json');
 const MAINNET = bitcoin.networks.bitcoin;
 const TESTNET = bitcoin.networks.testnet;
 // let bitcoinNetwork = MAINNET;
 let bitcoinNetwork = TESTNET;
 
-const xpriv1 = require('./xpriv1.json').xpriv;
-const xpriv2 = require('./xpriv2.json').xpriv;
-const xpriv3 = require('./xpriv3.json').xpriv;
+const { xpriv1 } = require('./xpriv1.json');
+const { xpriv2 } = require('./xpriv2.json');
+const { xpriv3 } = require('./xpriv3.json');
 
 let addressIndex = 0;
 
 function getPrivkeyFromXpriv(xpriv, addressIndex) {
     const privkeyNode = bitcoin.bip32.fromBase58(xpriv, bitcoinNetwork);
     const privateKey_wif = privkeyNode.derive(0).derive(addressIndex).toWIF();
-    console.log("privateKey_wif:");
-    console.log(privateKey_wif);
+    console.log("privateKey_wif:\n" + privateKey_wif);
     const obj = wif.decode(privateKey_wif);
     const privkey = bitcoin.ECPair.fromPrivateKey(obj.privateKey);
     return privkey;
@@ -52,27 +51,34 @@ const p2sh = bitcoin.payments.p2sh({
     redeem: p2wsh
 });
 
-console.log('P2SH-P2WSH address')
-console.log(p2sh.address) 
+console.log('P2SH-P2WSH address:\n' + p2sh.address);
 
 const psbt = new bitcoin.Psbt({ network: bitcoinNetwork });
 
-const previousRawTx = '0200000000010142350237fe041333d6752c3de6215bfbab77f0fcc253442d96b66a1aabe7b6e60000000000feffffff02809698000000000017a914c2ecaf38fedd7e1d8a03f9dc5b93862b766716f987b9d3bc1801000000160014b7b79beb080954c426f94c04d87d2b3ba8ec7cff024730440220345801148d29a16afd2a7c853d9c6961bf23332c4327552960b53fe53541e1e7022035ce4a127517fb05d5741b3b93135e2f3d5841786587761f4dfa3e19353d84120121027d80bdf7d10867bf8cf14557a7ef229e301ab6c9ad4b2c6c84817047a43772405bd40000';
+const previousRawTx = '02000000000101397816bc0ebdbab388efbdffef171c79b8cf18519385131dda1432e61401f75f0000000000ffffffff02808d5b000000000017a9142f5f41088f837f36925b277cf4f97e5b77d58e7d87c2831e0000000000220020418d66a5fc9b7182feb920a88198dd755bd5e7897e562cd1ba39c236a91a1bfc040047304402202549b3e56ceb5562bac9691abf19d4c8c2a453580e732f788a755ce33d477ae602205306aaa5dc9bfc185ef6fc350f2c18c60c3d199f1c2620426f8955baa57176a801483045022100d8e8367c02269c9da9dfa03774a33456aa529f7e5008cb566c00998096dec43602202b163e10a7523a4701326322f59bcd13bca807a8454efdb0864a566433291a9801695221021d0abb918de315b7714b97d37a8105a271ad2d291e2c4eb5042ab50ab545494f2102bc527ea1d670def3afc5f60b36b7f194510c8d54568468845f061f77e4bf2a032102d0a09bd913cb01f44a7c656bab9a8b80b648c24139d039af8d01aed5679f8e6153ae00000000';
 
 psbt.addInput({
-    hash: 'e79030a76a99bc19d6ab9eb2491b33b0d310c16fc806723ae494acfc6d8edda1',
+    hash: 'f131cfd38f5020aa589bb9190e295ffb24cc569133b9b8d5826ef85a0a644a9a',
     index: 0,
     redeemScript: p2wsh.output,
     witnessScript: p2wsh.redeem.output,
     nonWitnessUtxo: Buffer.from(previousRawTx, 'hex'),
 });
 psbt.addOutput({
-    address: "tb1qvn3uc6cguc0w9z2uzwsvwhm42aatqcsk880x9y",
-    value: 3000000,
+    address: "mt8xMnq8MGPSHC42hfFc8xuTxJ3uqoJTA9",
+    value: 4000000,
 });
 psbt.addOutput({
-    address: "tb1qq40qn5k2gvlle8506tcyv8l2gmzfch6pmn9zj6",
-    value: 6999788,
+    address: "mj12LAXrTjvyQQBBJQg1MqhN2JHHWxc8QZ",
+    value: 1700000,
+});
+psbt.addOutput({
+    address: "mqhpyiCtz9xL9YZMc4QrBEbKZDUBnAQiU8",
+    value: 200000,
+});
+psbt.addOutput({
+    address: "2Myv2XaqYXiM5ttNiG4jvtALrCmE6qJRCtZ",
+    value: 99716,
 });
 
 psbt.signInput(0, privkey2)
@@ -85,4 +91,4 @@ psbt.validateSignaturesOfInput(0);
 psbt.finalizeAllInputs();
 const txHex = psbt.extractTransaction().toHex();
 
-console.log(txHex);
+console.log("RawTx:\n" + txHex);
