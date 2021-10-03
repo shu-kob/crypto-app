@@ -10,28 +10,31 @@ let bitcoinNetwork = TESTNET;
 
 const { xpriv } = require('./xpriv.json');
 
-function getPrivKey(xpriv, addressIndex){
+let nonChangeAddress = 0;
+let changeAddress = 1;
+
+function getPrivKey(xpriv, isChange, addressIndex){
     const privkeyNode = bitcoin.bip32.fromBase58(xpriv, bitcoinNetwork);
-    const privateKey_wif = privkeyNode.derive(0).derive(addressIndex).toWIF();
+    const privateKey_wif = privkeyNode.derive(isChange).derive(addressIndex).toWIF();
     console.log("privateKey_wif:\n" + privateKey_wif);
     const obj = wif.decode(privateKey_wif);
     const privKey = bitcoin.ECPair.fromPrivateKey(obj.privateKey);
     return privKey;
 }
 
-const privkey0 = getPrivKey(xpriv, 0);
-const privkey1 = getPrivKey(xpriv, 1);
-const privkey2 = getPrivKey(xpriv, 2);
+const privkey0 = getPrivKey(xpriv, nonChangeAddress, 0);
+const privkey1 = getPrivKey(xpriv, nonChangeAddress, 1);
+const privkey2 = getPrivKey(xpriv, nonChangeAddress, 2);
 
-function getPubkeyFromXpub(xpub, addressIndex) {
+function getPubkeyFromXpub(xpub, isChange, addressIndex) {
     const pubkeyNode = bitcoin.bip32.fromBase58(xpub, bitcoinNetwork);
-    const pubkey = pubkeyNode.derive(0).derive(addressIndex).publicKey;
+    const pubkey = pubkeyNode.derive(isChange).derive(addressIndex).publicKey;
     return pubkey;
 }
 
-const pubkey0 = getPubkeyFromXpub(xpub, 0);
-const pubkey1 = getPubkeyFromXpub(xpub, 1);
-const pubkey2 = getPubkeyFromXpub(xpub, 2);
+const pubkey0 = getPubkeyFromXpub(xpub, nonChangeAddress, 0);
+const pubkey1 = getPubkeyFromXpub(xpub, nonChangeAddress, 1);
+const pubkey2 = getPubkeyFromXpub(xpub, nonChangeAddress, 2);
 
 const p2wpkh0 = bitcoin.payments.p2wpkh({ pubkey: pubkey0, network: bitcoinNetwork, });
 const p2wpkh1 = bitcoin.payments.p2wpkh({ pubkey: pubkey1, network: bitcoinNetwork, });
