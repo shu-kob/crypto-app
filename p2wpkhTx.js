@@ -13,6 +13,7 @@ const { xpriv } = require('./xpriv.json');
 function getPrivKey(xpriv, addressIndex){
     const privkeyNode = bitcoin.bip32.fromBase58(xpriv, bitcoinNetwork);
     const privateKey_wif = privkeyNode.derive(0).derive(addressIndex).toWIF();
+    console.log("privateKey_wif:\n" + privateKey_wif);
     return privateKey_wif;
 }
 
@@ -31,30 +32,28 @@ const pubkey = getPubkeyFromXpub(xpub, 0);
 
 const p2wpkh = bitcoin.payments.p2wpkh({ pubkey: pubkey, network: bitcoinNetwork, });
 
-console.log('Witness script:')
-console.log(p2wpkh.output.toString('hex'))
+console.log('Witness script:\n' + p2wpkh.output.toString('hex'))
 
-console.log('P2WPKH address')
-console.log(p2wpkh.address) 
+console.log('P2WPKH address:\n' + p2wpkh.address);
 
 const psbt = new bitcoin.Psbt({ network: bitcoinNetwork });
 
 psbt.addInput({
-    hash: '2d80282573483c86c5d7e23f6e1b364071a68a9b9432257de1bdba14b2df49d4',
-    index: 1,
+    hash: '5ff70114e63214da1d1385935118cfb8791c17efffbdef88b3babd0ebc167839',
+    index: 0,
     sequence: 0xffffffff,
     witnessUtxo: {
     script: Buffer.from(p2wpkh.output.toString('hex'),'hex',),
-    value: 10000000,
+    value: 8000000,
     },
 });
 psbt.addOutput({
-    address: "tb1q37qtrf5gghczwczkmpnuemrlh8mxvm5s8tz2wz",
-    value: 4999859,
+    address: "2MwZhrfcLDFJX1PG2LhuUJPzDiqMFxzSQ4G",
+    value: 6000000,
 });
 psbt.addOutput({
-    address: "tb1qhpcaf35sn0d780tjpyje6ykz2a4r73p6slfmue",
-    value: 5000000,
+    address: "tb1qgxxkdf0undcc9l4eyz5grxxaw4dateuf0etze5d688prd2g6r07qgq9jdr",
+    value: 2999999,
 });
 
 const obj = wif.decode(privateKey_wif);
@@ -67,4 +66,4 @@ psbt.validateSignaturesOfInput(0);
 psbt.finalizeAllInputs();
 const txHex = psbt.extractTransaction().toHex();
 
-console.log(txHex);
+console.log("RawTx:\n" + txHex);
