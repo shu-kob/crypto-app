@@ -1,6 +1,6 @@
 # crypto-app
 
-## how to use
+## How to use
 
 ```
 git clone https://github.com/shu-kob/crypto-app
