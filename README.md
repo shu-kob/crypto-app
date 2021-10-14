@@ -5,7 +5,7 @@
 ```
 git clone https://github.com/shu-kob/crypto-app
 
-cd walllet-dev-study
+cd crypto-app
 
 npm install
 ```
