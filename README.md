@@ -24,11 +24,11 @@ node getSingleSigAddresses.js
 ### マルチシグの鍵とアドレスを生成する場合
 
 ```
-getMnemonic.js
+node getMnemonic.js
 
-getMultiSigKeys.js
+node getMultiSigKeys.js
 
-getSingleSigAddresses.js
+node getSingleSigAddresses.js
 ```
 
 ### トランザクション作成
