@@ -33,4 +33,6 @@ node getSingleSigAddresses.js
 
 ### トランザクション作成
 
-*Tx.jsを編集してRawTxを得る。得たRawTxをブロードキャストする。
+*Tx.jsを編集してRawTxを得る。
+
+得たRawTxをブロードキャストする。
