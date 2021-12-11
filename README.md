@@ -2,6 +2,8 @@
 
 ## How to use
 
+### 初回準備
+
 ```
 git clone https://github.com/shu-kob/crypto-app
 
