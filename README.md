@@ -37,6 +37,6 @@ node getSingleSigAddresses.js
 
 作成したアドレスに入金する。
 
-*Tx.jsを編集してRawTxを得る。
+*Tx.jsを編集してコードを実行し、RawTxを得る。
 
 得たRawTxをブロードキャストする。
