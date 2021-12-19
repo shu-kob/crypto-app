@@ -39,4 +39,25 @@ node getSingleSigAddresses.js
 
 *Tx.jsを編集してコードを実行し、RawTxを得る。
 
+例
+
+```
+node p2wpkhTx.js
+```
+
 得たRawTxをブロードキャストする。
+
+```
+bitcoin-cli sendrawtransaction <rawtx>
+```
+
+もしくは、Blockchain ExplorerのBroadcast raw transaction機能を使う
+
+Mainnet
+https://blockstream.info/tx/push
+
+Testnet
+https://blockstream.info/testnet/tx/push
+
+Signet
+https://explorer.bc-2.jp/tx/push
