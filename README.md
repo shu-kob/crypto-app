@@ -47,11 +47,15 @@ node p2wpkhTx.js
 
 得たRawTxをブロードキャストする。
 
+#### bitcoindを使う場合
+
 ```
 bitcoin-cli sendrawtransaction <rawtx>
 ```
 
-もしくは、Blockchain ExplorerのBroadcast raw transaction機能を使う
+#### Blockchain Explorerを使う場合
+
+blockstream.infoのBroadcast raw transaction機能を使う
 
 Mainnet
 https://blockstream.info/tx/push
