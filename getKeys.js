@@ -29,7 +29,18 @@ const DOGECOIN = {
     wif: 0x9e
 };
 
-let bitcoinNetwork = TESTNET; // MAINNET, TESTNET, LITECOIN or DOGECOIN
+const QTUM = {
+    messagePrefix: '\x19Qtum Signed Message:\n',
+    bip32: {
+      public: 0x0488ade4,
+      private: 0x0488b21e,
+    },
+    pubKeyHash: 0x3A,
+    scriptHash: 0x32,
+    wif: 0x80
+};
+
+let bitcoinNetwork = TESTNET; // MAINNET, TESTNET, LITECOIN, DOGECOIN or QTUM
 
 let purpose = "44"
 
@@ -46,6 +57,9 @@ else if (bitcoinNetwork == LITECOIN) {
 }
 else if (bitcoinNetwork == DOGECOIN) {
     coinType = "3";
+}
+else if (bitcoinNetwork == QTUM) {
+    coinType = "2301";
 }
 
 let account = "0"
