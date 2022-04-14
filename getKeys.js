@@ -32,8 +32,8 @@ const DOGECOIN = {
 const QTUM = {
     messagePrefix: '\x19Qtum Signed Message:\n',
     bip32: {
-      public: 0x0488ade4,
-      private: 0x0488b21e,
+      public: 0x0488b21e,
+      private: 0x0488ade4,
     },
     pubKeyHash: 0x3A,
     scriptHash: 0x32,
