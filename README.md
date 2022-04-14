@@ -26,7 +26,7 @@ node getSingleSigAddresses.js
 ### 鍵3つとマルチシグアドレスを生成する場合
 
 ```
-node getMnemonic.js
+node getMultiSigMnemonics.js
 
 node getMultiSigKeys.js
 
