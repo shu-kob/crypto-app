@@ -30,7 +30,7 @@ node getMultiSigMnemonics.js
 
 node getMultiSigKeys.js
 
-node getSingleSigAddresses.js
+node getMultiSigAddresses.js
 ```
 
 ### トランザクション作成
