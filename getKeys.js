@@ -31,6 +31,7 @@ const DOGECOIN = {
 
 const QTUM = {
     messagePrefix: '\x19Qtum Signed Message:\n',
+    bech32: 'qc',
     bip32: {
       public: 0x0488b21e,
       private: 0x0488ade4,
@@ -40,7 +41,7 @@ const QTUM = {
     wif: 0x80
 };
 
-let bitcoinNetwork = TESTNET; // MAINNET, TESTNET, LITECOIN, DOGECOIN or QTUM
+let bitcoinNetwork = QTUM; // MAINNET, TESTNET, LITECOIN, DOGECOIN or QTUM
 
 let purpose = "44"
 
